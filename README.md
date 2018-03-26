@@ -1,0 +1,2 @@
+# Projekt
+PPJ - závěrečný projekt.
