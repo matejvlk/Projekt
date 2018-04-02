@@ -1,7 +1,7 @@
 package cz.tul;
 
-import cz.tul.data.User;
-import cz.tul.data.UsersDao;
+import cz.tul.data.State;
+import cz.tul.data.StatesDao;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 @SpringApplicationConfiguration(classes = {Main.class})
 @ActiveProfiles({"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UsersDaoTests {
+public class StatesDaoTests {
 
     @Autowired
     private UsersDao usersDao;

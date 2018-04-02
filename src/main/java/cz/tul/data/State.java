@@ -1,9 +1,9 @@
 package cz.tul.data;
 
 /**
- * Created by akasa on 20.1.2015.
+ * Created by Matej Vlk on 2.4.2018.
  */
-public class User {
+public class State {
 
     private String username;
     private String password;
@@ -13,11 +13,11 @@ public class User {
     private boolean enabled = false;
     private String authority;
 
-    public User() {
+    public State() {
 
     }
 
-    public User(String username, String name, String password, String email, boolean enabled,
+    public State(String username, String name, String password, String email, boolean enabled,
                 String authority) {
         this.username = username;
         this.name = name;
@@ -97,7 +97,7 @@ public class User {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        State other = (State) obj;
         if (authority == null) {
             if (other.authority != null)
                 return false;

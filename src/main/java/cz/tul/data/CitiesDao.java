@@ -1,9 +1,5 @@
 package cz.tul.data;
 
-/**
- * Created by akasa on 20.1.2015.
- */
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
@@ -13,8 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
-public class OffersDao {
+public class CitiesDao {
 
     @Autowired
     private NamedParameterJdbcOperations jdbc;

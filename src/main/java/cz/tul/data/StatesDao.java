@@ -8,22 +8,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public class UsersDao {
+public class StatesDao {
 
     @Autowired
     private NamedParameterJdbcOperations jdbc;
 
     @Transactional
-    public boolean create(User user) {
+    public boolean create(State state) {
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("username", user.getUsername());
-        params.addValue("password", user.getPassword());
-        params.addValue("email", user.getEmail());
-        params.addValue("name", user.getName());
-        params.addValue("enabled", user.isEnabled());
-        params.addValue("authority", user.getAuthority());
+        params.addValue("name", state.getName());
+        params.addValue("enabled", state.isEnabled());
+        params.addValue("authority", state.getAuthority());
 
         return jdbc.update("insert into users (username, name, password, email, enabled, authority) values (:username, :name, :password, :email, :enabled, :authority)", params) == 1;
     }
