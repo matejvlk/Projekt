@@ -1,8 +1,9 @@
 package cz.tul;
 
-import cz.tul.data.OffersDao;
-import cz.tul.data.User;
-import cz.tul.data.UsersDao;
+import cz.tul.data.City;
+import cz.tul.data.State;
+import cz.tul.data.CitiesDao;
+import cz.tul.data.StatesDao;
 import cz.tul.provisioning.Provisioner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,13 +17,13 @@ import java.util.List;
 public class Main {
 
     @Bean
-    public OffersDao offersDao() {
-        return new OffersDao();
+    public CitiesDao citiesDao() {
+        return new CitiesDao();
     }
 
     @Bean
-    public UsersDao usersDao() {
-        return new UsersDao();
+    public StatesDao statesDao() {
+        return new StatesDao();
     }
 
     @Profile({"devel", "test"})
@@ -36,11 +37,27 @@ public class Main {
         SpringApplication app = new SpringApplication(Main.class);
         ApplicationContext ctx = app.run(args);
 
-        UsersDao usersDao = ctx.getBean(UsersDao.class);
+        //states
+        StatesDao statesDao = ctx.getBean(StatesDao.class);
 
-        List<User> users = usersDao.getAllUsers();
-        System.out.println(users);
+        State state = new State("Czech", true, "user");
+        statesDao.create(state);
+
+        State state2 = new State("USA", true, "user");
+        statesDao.create(state2);
+
+        List<State> states = statesDao.getAllStates();
+        System.out.println(states);
+
+        //cities
+
+        CitiesDao citiesDao = ctx.getBean(CitiesDao.class);
+
+        City city = new City(state, "Liberec");
+        citiesDao.create(city);
+
+        List<City> cities = citiesDao.getCities();
+        System.out.println(cities);
 
     }
-
 }

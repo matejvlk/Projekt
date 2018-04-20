@@ -1,9 +1,9 @@
 package cz.tul;
 
-import cz.tul.data.Offer;
-import cz.tul.data.OffersDao;
-import cz.tul.data.User;
-import cz.tul.data.UsersDao;
+import cz.tul.data.City;
+import cz.tul.data.CitiesDao;
+import cz.tul.data.State;
+import cz.tul.data.StatesDao;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,97 +23,94 @@ import static org.junit.Assert.assertTrue;
 @SpringApplicationConfiguration(classes = {Main.class})
 @ActiveProfiles({"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class OffersDaoTests {
+public class CitiesDaoTests {
 
     @Autowired
-    private OffersDao offersDao;
+    private CitiesDao citiesDao;
 
     @Autowired
-    private UsersDao usersDao;
+    private StatesDao statesDao;
 
 
     @Test
-    public void Test1_createOffer() {
+    public void Test1_createCity() {
 
         //usersDao.deleteUsers();
 
-        User user = new User("developer", "Petr", "hellothere",
-                "petr@seznam.cz", true, "user");
+        State state = new State("Česká republika", true, "user");
 
-        assertTrue("User creation should return true", usersDao.create(user));
+        assertTrue("State creation should return true", statesDao.create(state));
 
-        Offer offer = new Offer(user, "This is a test offer.");
+        City city = new City(state, "This is a test city.");
 
-        assertTrue("Offer creation should return true", offersDao.create(offer));
-
+        assertTrue("City creation should return true", citiesDao.create(city));
     }
 
     @Test
-    public void Test2_listOffers() {
+    public void Test2_listCities() {
 
-        List<Offer> offers = offersDao.getOffers();
-        // Get the offer with ID filled in.
-        Offer offer = offers.get(0);
+        List<City> cities = citiesDao.getCities();
+        // Get the city with ID filled in.
+        City city = cities.get(0);
 
-        assertEquals("Should be one offer in database.", 1, offers.size());
+        assertEquals("Should be one city in database.", 1, cities.size());
 
-        assertEquals("Retrieved offer should match created offer.", offer,
-                offers.get(0));
+        assertEquals("Retrieved city should match created city.", city, cities.get(0));
     }
 
     @Test
-    public void Test3_updateOffer() {
+    public void Test3_updateCity() {
 
-        List<Offer> offers = offersDao.getOffers();
+        List<City> cities = citiesDao.getCities();
 
-        // Get the offer with ID filled in.
-        Offer offer = offers.get(0);
+        // Get the city with ID filled in.
+        City city = cities.get(0);
 
-        offer.setText("Updated offer text.");
-        assertTrue("Offer update should return true", offersDao.update(offer));
+        city.setCityName("Updated city name.");
+        assertTrue("Offer update should return true", citiesDao.update(city));
 
-        Offer updated = offersDao.getOffer(offer.getId());
+        City updated = citiesDao.getCity(city.getId());
 
-        assertEquals("Updated offer should match retrieved updated offer", offer, updated);
+        assertEquals("Updated city should match retrieved updated city", city, updated);
     }
 
     @Test
     public void Test4_getOfferById() {
 
-        List<User> users = usersDao.getAllUsers();
+        List<State> states = statesDao.getAllStates();
 
         // Test get by ID ///////
-        Offer offer2 = new Offer(users.get(0), "This is a test offer.");
+        City city2 = new City(states.get(0), "This is a test city.");
 
-        assertTrue("Offer creation should return true", offersDao.create(offer2));
+        assertTrue("Offer creation should return true", citiesDao.create(city2));
 
-        List<Offer> userOffers = offersDao.getOffers();
-        assertEquals("Should be two offers for user.", 2, userOffers.size());
+        List<City> stateCities = citiesDao.getCities();
+        assertEquals("Should be two cities for state.", 2, stateCities.size());
 
-        List<Offer> secondList = offersDao.getOffers();
+        List<City> secondList = citiesDao.getCities();
         System.out.println(secondList);
 
-        for (Offer current : secondList) {
-            Offer retrieved = offersDao.getOffer(current.getId());
+        for (City current : secondList) {
+            City retrieved = citiesDao.getCity(current.getId());
 
-            assertEquals("Offer by ID should match offer from list.", current, retrieved);
+            assertEquals("City by ID should match city from list.", current, retrieved);
         }
     }
 
     @Test
     public void Test5_deleteOffer() {
 
-        List<Offer> offers = offersDao.getOffers();
+        List<City> cities = citiesDao.getCities();
 
-        // Get the offer with ID filled in.
-        Offer offer = offers.get(0);
+        // Get the city with ID filled in.
+        City city = cities.get(0);
 
         // Test deletion
-        offersDao.delete(offer.getId());
+        citiesDao.delete(city.getId());
 
-        List<Offer> finalList = offersDao.getOffers();
+        List<City> finalList = citiesDao.getCities();
 
-        assertEquals("Offers lists should contain one offer.", 1, finalList.size());
+        assertEquals("Offers lists should contain one city.", 1, finalList.size());
     }
 
 }

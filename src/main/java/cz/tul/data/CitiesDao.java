@@ -14,116 +14,97 @@ public class CitiesDao {
     @Autowired
     private NamedParameterJdbcOperations jdbc;
 
-    public List<Offer> getOffers() {
+    public List<City> getCities() {
 
         return jdbc
-                .query("select * from offers, users where offers.username=users.username and users.enabled=true",
+                .query("select * from cities, states where cities.stateName=states.stateName and states.enabled=true",
                         (ResultSet rs, int rowNum) -> {
-                            User user = new User();
-                            user.setAuthority(rs.getString("authority"));
-                            user.setEmail(rs.getString("email"));
-                            user.setEnabled(true);
-                            user.setName(rs.getString("name"));
-                            user.setUsername(rs.getString("username"));
+                            State state = new State();
+                            state.setAuthority(rs.getString("authority"));
+                            state.setEnabled(true);
+                            state.setStateName(rs.getString("stateName"));
 
-                            Offer offer = new Offer();
-                            offer.setId(rs.getInt("id"));
-                            offer.setText(rs.getString("text"));
-                            offer.setUser(user);
+                            City city = new City();
+                            city.setId(rs.getInt("id"));
+                            city.setCityName(rs.getString("cityName"));
+                            city.setState(state);
 
-                            return offer;
+                            return city;
                         }
                 );
     }
 
-    public List<Offer> getOffers_innerjoin() {
+    public List<City> getCitites_innerjoin() {
 
         return jdbc
-                .query("select * from offers join users using (username) where users.enabled=true",
+                .query("select * from cities join states using (stateName) where states.enabled=true",
                         (ResultSet rs, int rowNum) -> {
-                            User user = new User();
-                            user.setAuthority(rs.getString("authority"));
-                            user.setEmail(rs.getString("email"));
-                            user.setEnabled(true);
-                            user.setName(rs.getString("name"));
-                            user.setUsername(rs.getString("username"));
+                            State state = new State();
+                            state.setAuthority(rs.getString("authority"));
+                            state.setEnabled(true);
+                            state.setStateName(rs.getString("stateName"));
 
-                            Offer offer = new Offer();
-                            offer.setId(rs.getInt("id"));
-                            offer.setText(rs.getString("text"));
-                            offer.setUser(user);
+                            City city = new City();
+                            city.setId(rs.getInt("id"));
+                            city.setCityName(rs.getString("cityName"));
+                            city.setState(state);
 
-                            return offer;
+                            return city;
                         }
                 );
     }
 
 
-    public boolean update(Offer offer) {
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                offer);
+    public boolean update(City city) {
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(city);
 
-        return jdbc.update("update offers set text=:text where id=:id", params) == 1;
+        return jdbc.update("update cities set cityName=:cityName where id=:id", params) == 1;
     }
 
-    public boolean create(Offer offer) {
+    public boolean create(City city) {
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(city);
 
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                offer);
-
-        return jdbc
-                .update("insert into offers (username, text) values (:username, :text)",
-                        params) == 1;
+        return jdbc.update("insert into cities (stateName, cityName) values (:stateName, :cityName)", params) == 1;
     }
 
     @Transactional
-    public int[] create(List<Offer> offers) {
+    public int[] create(List<City> cities) {
+        SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(cities.toArray());
 
-        SqlParameterSource[] params = SqlParameterSourceUtils
-                .createBatch(offers.toArray());
-
-        return jdbc
-                .batchUpdate("insert into offers (username, text) values (:username, :text)", params);
+        return jdbc.batchUpdate("insert into cities (stateName, cityName) values (:stateName, :cityName)", params);
     }
 
     public boolean delete(int id) {
         MapSqlParameterSource params = new MapSqlParameterSource("id", id);
 
-        return jdbc.update("delete from offers where id=:id", params) == 1;
+        return jdbc.update("delete from cities where id=:id", params) == 1;
     }
 
-    public Offer getOffer(int id) {
+    public City getCity(int id) {
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
 
-        return jdbc.queryForObject("select * from offers, users where offers.username=users.username and users.enabled=true  and id=:id", params,
-                new RowMapper<Offer>() {
+        return jdbc.queryForObject("select * from cities, states where cities.stateName=states.stateName and states.enabled=true  and id=:id", params,
+                new RowMapper<City>() {
 
-                    public Offer mapRow(ResultSet rs, int rowNum)
-                            throws SQLException {
-                        User user = new User();
-                        user.setAuthority(rs.getString("authority"));
-                        user.setEmail(rs.getString("email"));
-                        user.setEnabled(true);
-                        user.setName(rs.getString("name"));
-                        user.setUsername(rs.getString("username"));
+                    public City mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        State state = new State();
+                        state.setAuthority(rs.getString("authority"));
+                        state.setEnabled(true);
+                        state.setStateName(rs.getString("stateName"));
 
-                        Offer offer = new Offer();
-                        offer.setId(rs.getInt("id"));
-                        offer.setText(rs.getString("text"));
-                        offer.setUser(user);
+                        City city = new City();
+                        city.setId(rs.getInt("id"));
+                        city.setCityName(rs.getString("cityName"));
+                        city.setState(state);
 
-                        return offer;
+                        return city;
                     }
-
                 });
     }
 
-
-    public void deleteOffers() {
-        jdbc.getJdbcOperations().execute("DELETE FROM OFFERS");
+    public void deleteCities() {
+        jdbc.getJdbcOperations().execute("DELETE FROM CITIES");
     }
-
-
 }

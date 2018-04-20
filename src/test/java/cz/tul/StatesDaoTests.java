@@ -23,26 +23,25 @@ import static org.junit.Assert.assertTrue;
 public class StatesDaoTests {
 
     @Autowired
-    private UsersDao usersDao;
+    private StatesDao statesDao;
 
     @Test
-    public void testUsers() {
+    public void testStates() {
 
-        usersDao.deleteUsers();
+        statesDao.deleteStates();
 
-        User user = new User("developer", "Petr", "hellothere",
-                "petr@seznam.cz", true, "user");
+        State state = new State("Test state", true, "user");
 
-        assertTrue("User creation should return true", usersDao.create(user));
+        assertTrue("State creation should return true", statesDao.create(state));
 
-        List<User> users = usersDao.getAllUsers();
+        List<State> states = statesDao.getAllStates();
 
-        assertEquals("Number of users should be 1.", 1, users.size());
+        assertEquals("Number of states should be 1.", 1, states.size());
 
-        assertTrue("User should exist.", usersDao.exists(user.getUsername()));
+        assertTrue("State should exist.", statesDao.exists(state.getStateName()));
 
-        assertEquals("Created user should be identical to retrieved user",
-                user, users.get(0));
+        assertEquals("Created state should be identical to retrieved state",
+                state, states.get(0));
 
     }
 }

@@ -1,61 +1,57 @@
 package cz.tul.data;
 
-public class Offer {
+public class City {
     private int id;
 
-    private String text;
+    private String cityName;
+    private State state;
 
-    private User user;
-
-    public Offer() {
+    public City() {
 
     }
 
-    public Offer(User user, String text) {
-        this.user = user;
-        this.text = text;
+    public City(State state, String cityName) {
+        this.state = state;
+        this.cityName = cityName;
     }
 
-    public Offer(int id, User user, String text) {
+    public City(int id, State state, String cityName) {
         this.id = id;
-        this.user = user;
-        this.text = text;
+        this.state = state;
+        this.cityName = cityName;
     }
 
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getCityName() {
+        return cityName;
+    }
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public State getState() {
+        return state;
+    }
+    public void setState(State state) {
+        this.state = state;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getUsername() {
-        return user.getUsername();
+    public String getStateName() {
+        return state.getStateName();
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        result = prime * result + ((cityName == null) ? 0 : cityName.hashCode());
+        result = prime * result + ((state == null) ? 0 : state.hashCode());
         return result;
     }
 
@@ -67,24 +63,22 @@ public class Offer {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Offer other = (Offer) obj;
-        if (text == null) {
-            if (other.text != null)
+        City other = (City) obj;
+        if (cityName == null) {
+            if (other.cityName != null)
                 return false;
-        } else if (!text.equals(other.text))
+        } else if (!cityName.equals(other.cityName))
             return false;
-        if (user == null) {
-            if (other.user != null)
+        if (state == null) {
+            if (other.state != null)
                 return false;
-        } else if (!user.equals(other.user))
+        } else if (!state.equals(other.state))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Offer [id=" + id + ", text=" + text + ", user=" + user + "]";
+        return "City [id=" + id + ", cityName=" + cityName + ", state=" + state + "]";
     }
-
-
 }
