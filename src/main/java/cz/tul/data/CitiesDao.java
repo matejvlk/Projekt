@@ -1,110 +1,67 @@
 package cz.tul.data;
 
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class CitiesDao {
 
     @Autowired
-    private NamedParameterJdbcOperations jdbc;
+    private SessionFactory sessionFactory;
 
+    public Session session(){
+        return sessionFactory.getCurrentSession();
+    }
+
+    @SuppressWarnings("unchecked")
     public List<City> getCities() {
+        Criteria crit = session().createCriteria(City.class);
 
-        return jdbc
-                .query("select * from cities, states where cities.stateName=states.stateName and states.enabled=true",
-                        (ResultSet rs, int rowNum) -> {
-                            State state = new State();
-                            state.setAuthority(rs.getString("authority"));
-                            state.setEnabled(true);
-                            state.setStateName(rs.getString("stateName"));
+        crit.createAlias("state", "s").add(Restrictions.eq("s.enabled", true));
 
-                            City city = new City();
-                            city.setId(rs.getInt("id"));
-                            city.setCityName(rs.getString("cityName"));
-                            city.setState(state);
-
-                            return city;
-                        }
-                );
+        return crit.list();
     }
 
-    public List<City> getCitites_innerjoin() {
+    @SuppressWarnings("unchecked")
+    public List<City> getCities(String stateName) {
+        Criteria crit = session().createCriteria(City.class);
 
-        return jdbc
-                .query("select * from cities join states using (stateName) where states.enabled=true",
-                        (ResultSet rs, int rowNum) -> {
-                            State state = new State();
-                            state.setAuthority(rs.getString("authority"));
-                            state.setEnabled(true);
-                            state.setStateName(rs.getString("stateName"));
+        crit.createAlias("state", "s");
 
-                            City city = new City();
-                            city.setId(rs.getInt("id"));
-                            city.setCityName(rs.getString("cityName"));
-                            city.setState(state);
+        crit.add(Restrictions.eq("s.enabled", true));
+        crit.add(Restrictions.eq("s.stateName", stateName));
 
-                            return city;
-                        }
-                );
+        return crit.list();
     }
 
-
-    public boolean update(City city) {
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(city);
-
-        return jdbc.update("update cities set cityName=:cityName where id=:id", params) == 1;
-    }
-
-    public boolean create(City city) {
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(city);
-
-        return jdbc.update("insert into cities (stateName, cityName) values (:stateName, :cityName)", params) == 1;
-    }
-
-    @Transactional
-    public int[] create(List<City> cities) {
-        SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(cities.toArray());
-
-        return jdbc.batchUpdate("insert into cities (stateName, cityName) values (:stateName, :cityName)", params);
+    public void saveOrUpdate(City city){
+        session().saveOrUpdate(city);
     }
 
     public boolean delete(int id) {
-        MapSqlParameterSource params = new MapSqlParameterSource("id", id);
-
-        return jdbc.update("delete from cities where id=:id", params) == 1;
+        Query query = session().createQuery("delete from City where id=:id");
+        query.setLong("id", id);
+        return query.executeUpdate() == 1;
     }
 
     public City getCity(int id) {
+        Criteria crit = session().createCriteria(City.class);
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", id);
+        crit.createAlias("state", "s");
 
-        return jdbc.queryForObject("select * from cities, states where cities.stateName=states.stateName and states.enabled=true  and id=:id", params,
-                new RowMapper<City>() {
+        crit.add(Restrictions.eq("s.enabled", true));
+        crit.add(Restrictions.idEq(id));
 
-                    public City mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        State state = new State();
-                        state.setAuthority(rs.getString("authority"));
-                        state.setEnabled(true);
-                        state.setStateName(rs.getString("stateName"));
-
-                        City city = new City();
-                        city.setId(rs.getInt("id"));
-                        city.setCityName(rs.getString("cityName"));
-                        city.setState(state);
-
-                        return city;
-                    }
-                });
+        return (City) crit.uniqueResult();
     }
 
     public void deleteCities() {
-        jdbc.getJdbcOperations().execute("DELETE FROM CITIES");
+        session().createQuery("delete from City").executeUpdate();
     }
 }

@@ -1,13 +1,24 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "cities")
 public class City {
+
+    @Id
+    @GeneratedValue
     private int id;
 
+    @Column(name = "cityName")
     private String cityName;
+
+    @ManyToOne
+    @JoinColumn(name = "stateName")
     private State state;
 
     public City() {
-
+        this.state = new State();
     }
 
     public City(State state, String cityName) {

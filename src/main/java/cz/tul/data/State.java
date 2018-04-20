@@ -1,7 +1,16 @@
 package cz.tul.data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "states")
 public class State {
 
+    @Id
+    @Column(name = "stateName")
     private String stateName;
 
     private boolean enabled = false;
