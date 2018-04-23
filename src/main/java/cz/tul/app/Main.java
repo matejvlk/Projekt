@@ -1,9 +1,9 @@
 package cz.tul.app;
 
 import cz.tul.data.City;
-import cz.tul.data.CitiesDao;
 import cz.tul.data.State;
-import cz.tul.data.StatesDao;
+import cz.tul.service.CityService;
+import cz.tul.service.StateService;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -24,15 +24,16 @@ import java.util.List;
 public class Main {
 
     @Bean
-    public CitiesDao citiesDao() {
-        return new CitiesDao();
+    public CityService cityService() {
+        return new CityService();
     }
 
     @Bean
-    public StatesDao statesDao() {
-        return new StatesDao();
+    public StateService stateService() {
+        return new StateService();
     }
 
+    /*
     @Autowired
     EntityManagerFactory entityManagerFactory;
 
@@ -45,30 +46,31 @@ public class Main {
     public PlatformTransactionManager txManager() {
         return new HibernateTransactionManager(entityManagerFactory.unwrap(SessionFactory.class));
     }
+    */
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Main.class);
         ApplicationContext ctx = app.run(args);
 
         //states
-        StatesDao statesDao = ctx.getBean(StatesDao.class);
+        StateService stateService = ctx.getBean(StateService.class);
 
         State state = new State("Czech", true, "user");
-        statesDao.create(state);
+        stateService.create(state);
 
         State state2 = new State("USA", true, "user");
-        statesDao.create(state2);
+        stateService.create(state2);
 
-        List<State> states = statesDao.getAllStates();
+        List<State> states = stateService.getAllStates();
         System.out.println(states);
 
         //cities
-        CitiesDao citiesDao = ctx.getBean(CitiesDao.class);
+        CityService cityService = ctx.getBean(CityService.class);
 
         City city = new City(state, "Liberec");
-        citiesDao.saveOrUpdate(city);
+        cityService.saveOrUpdate(city);
 
-        List<City> cities = citiesDao.getCities();
+        List<City> cities = cityService.getCities();
         System.out.println(cities);
     }
 }

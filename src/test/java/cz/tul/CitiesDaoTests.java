@@ -2,9 +2,9 @@ package cz.tul;
 
 import cz.tul.app.Main;
 import cz.tul.data.City;
-import cz.tul.data.CitiesDao;
 import cz.tul.data.State;
-import cz.tul.data.StatesDao;
+import cz.tul.service.CityService;
+import cz.tul.service.StateService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +23,10 @@ import static org.junit.Assert.*;
 public class CitiesDaoTests {
 
     @Autowired
-    private CitiesDao citiesDao;
+    private CityService cityService;
 
     @Autowired
-    private StatesDao statesDao;
+    private StateService stateService;
 
     private State state1 = new State("Česká republika", true, "ROLE_USER");
     private State state2 = new State("Německo", true, "ROLE_ADMIN");
@@ -43,121 +43,121 @@ public class CitiesDaoTests {
 
     @Before
     public void init() {
-        citiesDao.deleteCities();
-        statesDao.deleteStates();
+        cityService.deleteCities();
+        stateService.deleteStates();
     }
 
 
     @Test
     public void testDelete() {
-        statesDao.create(state1);
-        statesDao.create(state2);
-        statesDao.create(state3);
-        statesDao.create(state4);
-        citiesDao.saveOrUpdate(city2);
-        citiesDao.saveOrUpdate(city3);
-        citiesDao.saveOrUpdate(city4);
-        citiesDao.saveOrUpdate(city5);
-        citiesDao.saveOrUpdate(city6);
-        citiesDao.saveOrUpdate(city7);
+        stateService.create(state1);
+        stateService.create(state2);
+        stateService.create(state3);
+        stateService.create(state4);
+        cityService.saveOrUpdate(city2);
+        cityService.saveOrUpdate(city3);
+        cityService.saveOrUpdate(city4);
+        cityService.saveOrUpdate(city5);
+        cityService.saveOrUpdate(city6);
+        cityService.saveOrUpdate(city7);
 
-        City retrieved1 = citiesDao.getCity(city2.getId());
+        City retrieved1 = cityService.getCity(city2.getId());
         assertNotNull("City with ID " + retrieved1.getId() + " should not be null (deleted, actual)", retrieved1);
 
-        citiesDao.delete(city2.getId());
+        cityService.delete(city2.getId());
 
-        City retrieved2 = citiesDao.getCity(city2.getId());
+        City retrieved2 = cityService.getCity(city2.getId());
         assertNull("City with ID " + retrieved1.getId() + " should be null (deleted, actual)", retrieved2);
     }
 
     @Test
     public void testGetById() {
-        statesDao.create(state1);
-        statesDao.create(state2);
-        statesDao.create(state3);
-        statesDao.create(state4);
-        citiesDao.saveOrUpdate(city1);
-        citiesDao.saveOrUpdate(city2);
-        citiesDao.saveOrUpdate(city3);
-        citiesDao.saveOrUpdate(city4);
-        citiesDao.saveOrUpdate(city5);
-        citiesDao.saveOrUpdate(city6);
-        citiesDao.saveOrUpdate(city7);
+        stateService.create(state1);
+        stateService.create(state2);
+        stateService.create(state3);
+        stateService.create(state4);
+        cityService.saveOrUpdate(city1);
+        cityService.saveOrUpdate(city2);
+        cityService.saveOrUpdate(city3);
+        cityService.saveOrUpdate(city4);
+        cityService.saveOrUpdate(city5);
+        cityService.saveOrUpdate(city6);
+        cityService.saveOrUpdate(city7);
 
-        City retrieved1 = citiesDao.getCity(city1.getId());
+        City retrieved1 = cityService.getCity(city1.getId());
         assertEquals("Cities should match", city1, retrieved1);
 
-        City retrieved2 = citiesDao.getCity(city7.getId());
+        City retrieved2 = cityService.getCity(city7.getId());
         assertNull("Should not retrieve city for disabled state.", retrieved2);
     }
 
     @Test
     public void testCreateRetrieve() {
-        statesDao.create(state1);
-        statesDao.create(state2);
-        statesDao.create(state3);
-        statesDao.create(state4);
+        stateService.create(state1);
+        stateService.create(state2);
+        stateService.create(state3);
+        stateService.create(state4);
 
-        citiesDao.saveOrUpdate(city1);
+        cityService.saveOrUpdate(city1);
 
-        List<City> cities1 = citiesDao.getCities();
+        List<City> cities1 = cityService.getCities();
         assertEquals("Should be one city.", 1, cities1.size());
 
         assertEquals("Retrieved city should equal inserted city.", city1, cities1.get(0));
 
-        citiesDao.saveOrUpdate(city2);
-        citiesDao.saveOrUpdate(city3);
-        citiesDao.saveOrUpdate(city4);
-        citiesDao.saveOrUpdate(city5);
-        citiesDao.saveOrUpdate(city6);
-        citiesDao.saveOrUpdate(city7);
+        cityService.saveOrUpdate(city2);
+        cityService.saveOrUpdate(city3);
+        cityService.saveOrUpdate(city4);
+        cityService.saveOrUpdate(city5);
+        cityService.saveOrUpdate(city6);
+        cityService.saveOrUpdate(city7);
 
-        List<City> cities2 = citiesDao.getCities();
+        List<City> cities2 = cityService.getCities();
         assertEquals("Should be six cities for enabled states.", 6, cities2.size());
     }
 
     @Test
     public void testUpdate() {
-        statesDao.create(state1);
-        statesDao.create(state2);
-        statesDao.create(state3);
-        statesDao.create(state4);
-        citiesDao.saveOrUpdate(city2);
-        citiesDao.saveOrUpdate(city3);
-        citiesDao.saveOrUpdate(city4);
-        citiesDao.saveOrUpdate(city5);
-        citiesDao.saveOrUpdate(city6);
-        citiesDao.saveOrUpdate(city7);
+        stateService.create(state1);
+        stateService.create(state2);
+        stateService.create(state3);
+        stateService.create(state4);
+        cityService.saveOrUpdate(city2);
+        cityService.saveOrUpdate(city3);
+        cityService.saveOrUpdate(city4);
+        cityService.saveOrUpdate(city5);
+        cityService.saveOrUpdate(city6);
+        cityService.saveOrUpdate(city7);
 
         city3.setCityName("This city has updated name.");
-        citiesDao.saveOrUpdate(city3);
+        cityService.saveOrUpdate(city3);
 
-        City retrieved = citiesDao.getCity(city3.getId());
+        City retrieved = cityService.getCity(city3.getId());
         assertEquals("Retrieved city should be updated.", city3, retrieved);
     }
 
     @Test
     public void testGetStateName() {
-        statesDao.create(state1);
-        statesDao.create(state2);
-        statesDao.create(state3);
-        statesDao.create(state4);
+        stateService.create(state1);
+        stateService.create(state2);
+        stateService.create(state3);
+        stateService.create(state4);
 
-        citiesDao.saveOrUpdate(city1);
-        citiesDao.saveOrUpdate(city2);
-        citiesDao.saveOrUpdate(city3);
-        citiesDao.saveOrUpdate(city4);
-        citiesDao.saveOrUpdate(city5);
-        citiesDao.saveOrUpdate(city6);
-        citiesDao.saveOrUpdate(city7);
+        cityService.saveOrUpdate(city1);
+        cityService.saveOrUpdate(city2);
+        cityService.saveOrUpdate(city3);
+        cityService.saveOrUpdate(city4);
+        cityService.saveOrUpdate(city5);
+        cityService.saveOrUpdate(city6);
+        cityService.saveOrUpdate(city7);
 
-        List<City> cities1 = citiesDao.getCities(state3.getStateName());
-        assertEquals("Should be three citys for this state.", 3, cities1.size());
+        List<City> cities1 = cityService.getCitiesByName(state3.getStateName());
+        assertEquals("Should be three cities for this state.", 3, cities1.size());
 
-        List<City> cities2 = citiesDao.getCities("sdfsfd");
-        assertEquals("Should be zero cities for this state.", 0, cities2.size());
+        //List<City> cities2 = cityService.getCities("sdfsfd");
+        //assertEquals("Should be zero cities for this state.", 0, cities2.size());
 
-        List<City> cities3 = citiesDao.getCities(state2.getStateName());
+        List<City> cities3 = cityService.getCitiesByName(state2.getStateName());
         assertEquals("Should be 1 city for this state.", 1, cities3.size());
     }
 }

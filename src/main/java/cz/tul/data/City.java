@@ -1,5 +1,8 @@
 package cz.tul.data;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +17,7 @@ public class City {
     private String cityName;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "stateName")
     private State state;
 
