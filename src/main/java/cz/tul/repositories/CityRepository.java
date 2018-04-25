@@ -1,6 +1,7 @@
 package cz.tul.repositories;
 
 import cz.tul.data.City;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
