@@ -1,6 +1,5 @@
 package cz.tul;
 
-import cz.tul.app.Main;
 import cz.tul.data.State;
 import cz.tul.service.StateService;
 import org.junit.Before;
@@ -18,7 +17,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {Main.class})
+@SpringApplicationConfiguration(classes = {App.class})
 @ActiveProfiles({"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StatesDaoTests {

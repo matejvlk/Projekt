@@ -1,42 +1,30 @@
 
-package cz.tul.app;
+package cz.tul;
 
 import cz.tul.data.City;
 import cz.tul.data.State;
 import cz.tul.service.CityService;
 import cz.tul.service.StateService;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-//import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @SpringBootApplication
 @EnableTransactionManagement
-//@EntityScan("cz.tul")
-public class Main {
-
-    @Bean
-    public CityService cityService() {
-        return new CityService();
-    }
-
-    @Bean
-    public StateService stateService() {
-        return new StateService();
-    }
+@ComponentScan
+public class App {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Main.class);
-        ApplicationContext ctx = app.run(args);
+        new App().run();
+    }
+
+    private void run(){
+        SpringApplication app = new SpringApplication(App.class);
+        ApplicationContext ctx = app.run();
 
         //states
         StateService stateService = ctx.getBean(StateService.class);

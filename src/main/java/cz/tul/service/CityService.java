@@ -5,21 +5,31 @@ import cz.tul.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-@ComponentScan("cz.tul.repositories")
 public class CityService {
 
     @Autowired
     private CityRepository cityRepository;
 
     public List<City> getCities() {
-        return StreamSupport.stream(cityRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<City> output = new ArrayList<City>();
+        List<City> all = StreamSupport.stream(cityRepository.findAll().spliterator(), false).collect(Collectors.toList());
+
+        for (City city : all){
+            if(city.getState().isEnabled()){
+                output.add(city);
+            }
+        }
+
+        return output;
     }
 
     public void create(City city)
@@ -51,7 +61,13 @@ public class CityService {
 
     public City getCity(Integer id)
     {
-        return cityRepository.findOne(id);
+        City city = cityRepository.findOne(id);
+        if(city == null || !city.getState().isEnabled()){
+            return null;
+        }
+        else{
+            return city;
+        }
     }
 
     public void saveOrUpdate(City city)
