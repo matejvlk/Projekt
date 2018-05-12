@@ -14,14 +14,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.List;
 
 @SpringBootApplication
-@EnableTransactionManagement
-@ComponentScan
+//@EnableTransactionManagement
+//@ComponentScan
 public class App {
 
     public static void main(String[] args) {
-        new App().run();
+        SpringApplication.run(App.class, args);
+
+        //new App().run();
     }
 
+    /*
     private void run(){
         SpringApplication app = new SpringApplication(App.class);
         ApplicationContext ctx = app.run();
@@ -47,4 +50,5 @@ public class App {
         List<City> cities = cityService.getCities();
         System.out.println(cities);
     }
+    */
 }
