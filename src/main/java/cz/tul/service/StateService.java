@@ -22,7 +22,8 @@ public class StateService {
     }
 
     public boolean exists(String stateName) {
-        return stateRepository.exists(stateName);
+        return stateRepository.existsById(stateName);
+        //return stateRepository.exists(stateName);
     }
 
     public List<State> getAllStates() {

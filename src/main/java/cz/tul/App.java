@@ -19,12 +19,12 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        //SpringApplication.run(App.class, args);
 
-        //new App().run();
+        new App().run();
     }
 
-    /*
+
     private void run(){
         SpringApplication app = new SpringApplication(App.class);
         ApplicationContext ctx = app.run();
@@ -50,5 +50,5 @@ public class App {
         List<City> cities = cityService.getCities();
         System.out.println(cities);
     }
-    */
+
 }

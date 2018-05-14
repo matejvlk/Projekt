@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -61,12 +62,13 @@ public class CityService {
 
     public City getCity(Integer id)
     {
-        City city = cityRepository.findOne(id);
-        if(city == null || !city.getState().isEnabled()){
-            return null;
+        Optional<City> city = cityRepository.findById(id);
+
+        if(city.isPresent() && city.get().getState().isEnabled()){
+            return city.get();
         }
         else{
-            return city;
+            return null;
         }
     }
 
@@ -77,7 +79,7 @@ public class CityService {
 
     public void delete(int id)
     {
-        cityRepository.delete(id);
+        cityRepository.deleteById(id);
     }
 
     public void deleteCities()

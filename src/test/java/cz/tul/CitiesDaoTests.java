@@ -1,5 +1,6 @@
 package cz.tul;
 
+import cz.tul.App;
 import cz.tul.data.City;
 import cz.tul.data.State;
 import cz.tul.service.CityService;
@@ -8,17 +9,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+//import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {App.class})
-@ActiveProfiles({"test"})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(classes = {App.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class)
+//@ActiveProfiles({"test"})
 public class CitiesDaoTests {
 
     @Autowired
