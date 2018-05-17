@@ -2,7 +2,9 @@
 package cz.tul;
 
 import cz.tul.data.City;
+import cz.tul.data.Measurement;
 import cz.tul.data.State;
+import cz.tul.repositories.MeasurementRepository;
 import cz.tul.service.CityService;
 import cz.tul.service.StateService;
 import org.springframework.boot.SpringApplication;
@@ -49,6 +51,22 @@ public class App {
 
         List<City> cities = cityService.getCities();
         System.out.println(cities);
+
+        //measurements
+        MeasurementRepository measurementRepository = ctx.getBean(MeasurementRepository.class);
+
+        measurementRepository.deleteAll();
+
+        measurementRepository.save(new Measurement(3071961, "Liberec", "Déšť", "Velkej déšť", 13, 987));
+        measurementRepository.save(new Measurement(3071961, "Liberec", "Mrholení", "Malej déšť", 15, 1001));
+
+        for(Measurement m : measurementRepository.findAll()){
+            System.out.println(m);
+        }
+
+
+
+
     }
 
 }
