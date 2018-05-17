@@ -4,7 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h3>Spring Boot and Thymeleaf</h3>
+<h1>PPJ projekt - Matěj Vlk</h1>
+
+<h3>Vyberte stát, pro který chcete zobrazit uložená města a jejich aktuální počasí:</h3>
+
+<tr th:each="state: ${states}">
+    <a th:href="@{'/state/' + ${state.stateName}}"><p th:text="${state.stateName}"></p></a>
+</tr>
 
 <p><a th:href="@{/cities}">Show current cities.</a></p>
 

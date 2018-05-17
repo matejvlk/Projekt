@@ -13,6 +13,9 @@ public class City {
     @GeneratedValue
     private int id;
 
+    @Column(name = "cityId")
+    private int cityId;
+
     @Column(name = "cityName")
     private String cityName;
 
@@ -25,8 +28,9 @@ public class City {
         this.state = new State();
     }
 
-    public City(State state, String cityName) {
+    public City(State state, int cityId, String cityName) {
         this.state = state;
+        this.cityId = cityId;
         this.cityName = cityName;
     }
 
@@ -41,6 +45,13 @@ public class City {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     public String getCityName() {
@@ -61,6 +72,7 @@ public class City {
         return state.getStateName();
     }
 
+    /*
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -90,10 +102,10 @@ public class City {
         } else if (!state.equals(other.state))
             return false;
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {
-        return "City [id=" + id + ", cityName=" + cityName + ", state=" + state + "]";
+        return "City [id=" + id + ", cityId=" + cityId + ", cityName=" + cityName + ", state=" + state + "]";
     }
 }

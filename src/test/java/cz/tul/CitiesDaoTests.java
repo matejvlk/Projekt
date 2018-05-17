@@ -37,13 +37,13 @@ public class CitiesDaoTests {
     private State state3 = new State("USA", true, "ROLE_USER");
     private State state4 = new State("Slovensko", false, "state");
 
-    private City city1 = new City(state1, "This is a test city.");
-    private City city2 = new City(state1, "This is another test city.");
-    private City city3 = new City(state2, "This is yet another test city.");
-    private City city4 = new City(state3, "This is a test city once again.");
-    private City city5 = new City(state3, "Here is an interesting city of some kind.");
-    private City city6 = new City(state3, "This is just a test city.");
-    private City city7 = new City(state4, "This is a test city for a state that is not enabled.");
+    private City city1 = new City(state1, 1, "This is a test city.");
+    private City city2 = new City(state1, 2, "This is another test city.");
+    private City city3 = new City(state2, 3, "This is yet another test city.");
+    private City city4 = new City(state3, 4, "This is a test city once again.");
+    private City city5 = new City(state3, 5, "Here is an interesting city of some kind.");
+    private City city6 = new City(state3, 6, "This is just a test city.");
+    private City city7 = new City(state4, 7, "This is a test city for a state that is not enabled.");
 
     @Before
     public void init() {

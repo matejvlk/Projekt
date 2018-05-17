@@ -1,29 +1,37 @@
 package cz.tul.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Measurement {
 
     @Id
+    @JsonIgnore
     public String id;
 
+    @JsonProperty("id")
     public int cityId;
+    @JsonProperty("name")
     public String cityName;
 
-    public String weatherMain;
-    public String weatherDescription;
-    public double temperature;
-    public double pressure;
+    @JsonProperty("weather")
+    public List<Weather> weather;
+
+    @JsonProperty("main")
+    public MainWeather main;
 
     public Measurement() {}
 
-    public Measurement(int cityId, String cityName, String weatherMain, String weatherDescription, double temperature, double pressure) {
+    public Measurement(int cityId, String cityName, List<Weather> weather, MainWeather main) {
         this.cityId = cityId;
         this.cityName = cityName;
-        this.weatherMain = weatherMain;
-        this.weatherDescription = weatherDescription;
-        this.temperature = temperature;
-        this.pressure = pressure;
+        this.weather = weather;
+        this.main = main;
     }
 
     public String getId() {
@@ -50,40 +58,30 @@ public class Measurement {
         this.cityName = cityName;
     }
 
-    public String getWeatherMain() {
-        return weatherMain;
+    public List<Weather> getWeather() {
+        return weather;
     }
 
-    public void setWeatherMain(String weatherMain) {
-        this.weatherMain = weatherMain;
+    public void setWeather(List<Weather> weather) {
+        this.weather = weather;
     }
 
-    public String getWeatherDescription() {
-        return weatherDescription;
+    public MainWeather getMain() {
+        return main;
     }
 
-    public void setWeatherDescription(String weatherDescription) {
-        this.weatherDescription = weatherDescription;
-    }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
-    public double getPressure() {
-        return pressure;
-    }
-
-    public void setPressure(double pressure) {
-        this.pressure = pressure;
+    public void setMain(MainWeather main) {
+        this.main = main;
     }
 
     @Override
     public String toString() {
-        return "Measurement [cityId=" + cityId + ", cityName=" + cityName + ", weatherMain=" + weatherMain + ", weatherDescription=" + weatherDescription + ", temperature=" + temperature + ", pressure=" + pressure + "]";
+        return "Measurement{" +
+                "id='" + id + '\'' +
+                ", cityId=" + cityId +
+                ", cityName='" + cityName + '\'' +
+                ", weather=" + weather +
+                ", main=" + main +
+                '}';
     }
 }

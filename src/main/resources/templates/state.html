@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h3 th:text="${state}"></h3>
+
+<tr th:each="measurement: ${measurements}">
+    <h4 th:text="${measurement.cityName}"></h4>
+
+    <p th:text="@{'Počasí: ' + ${measurement.weather[0].main}}"></p>
+    <p th:text="@{'Popis: ' + ${measurement.weather[0].description}}"></p>
+    <p th:text="@{'Teplota: ' + ${measurement.main.temp}}"></p>
+    <p th:text="@{'Tlak: ' + ${measurement.main.pressure}}"></p>
+</tr>
+
+</body>
+</html>
