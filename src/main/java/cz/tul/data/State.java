@@ -1,19 +1,23 @@
 package cz.tul.data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "states")
 public class State {
 
     @Id
+    @GeneratedValue
+    private int id;
+
+    //@Id
     @Column(name = "stateName")
     private String stateName;
 
+    @Column(name = "enabled")
     private boolean enabled = false;
+
+    @Column(name = "authority")
     private String authority;
 
     public State() {
@@ -24,6 +28,14 @@ public class State {
         this.stateName = stateName;
         this.enabled = enabled;
         this.authority = authority;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isEnabled() {
@@ -47,13 +59,13 @@ public class State {
         this.stateName = stateName;
     }
 
-    /*
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((authority == null) ? 0 : authority.hashCode());
+        result = prime * result + String.valueOf(id).hashCode();
+        result = prime * result + ((authority == null) ? 0 : authority.hashCode());
         result = prime * result + (enabled ? 1231 : 1237);
         result = prime * result + ((stateName == null) ? 0 : stateName.hashCode());
         return result;
@@ -68,6 +80,8 @@ public class State {
         if (getClass() != obj.getClass())
             return false;
         State other = (State) obj;
+        if (id != other.id)
+            return false;
         if (authority == null) {
             if (other.authority != null)
                 return false;
@@ -82,7 +96,7 @@ public class State {
             return false;
         return true;
     }
-    */
+
 
     @Override
     public String toString() {

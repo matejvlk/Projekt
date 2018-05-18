@@ -72,11 +72,13 @@ public class City {
         return state.getStateName();
     }
 
-    /*
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + String.valueOf(id).hashCode();
+        result = prime * result + String.valueOf(cityId).hashCode();
         result = prime * result + ((cityName == null) ? 0 : cityName.hashCode());
         result = prime * result + ((state == null) ? 0 : state.hashCode());
         return result;
@@ -91,6 +93,12 @@ public class City {
         if (getClass() != obj.getClass())
             return false;
         City other = (City) obj;
+        if (id != other.id) {
+            return false;
+        }
+        if (cityId != other.cityId) {
+            return false;
+        }
         if (cityName == null) {
             if (other.cityName != null)
                 return false;
@@ -102,7 +110,7 @@ public class City {
         } else if (!state.equals(other.state))
             return false;
         return true;
-    }*/
+    }
 
     @Override
     public String toString() {

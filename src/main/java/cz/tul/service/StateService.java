@@ -21,9 +21,14 @@ public class StateService {
         stateRepository.save(state);
     }
 
-    public boolean exists(String stateName) {
-        return stateRepository.existsById(stateName);
-        //return stateRepository.exists(stateName);
+    public boolean exists(int id) {
+        List<State> states = getAllStates();
+        for (State s: states) {
+            if(s.getId() == id){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<State> getAllStates() {

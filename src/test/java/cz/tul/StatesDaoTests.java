@@ -67,7 +67,7 @@ public class StatesDaoTests {
         stateService.create(state2);
         stateService.create(state3);
 
-        assertTrue("State should exist.", stateService.exists(state2.getStateName()));
-        assertFalse("State should not exist.", stateService.exists("xkjhsfjlsjf"));
+        assertTrue("State should exist.", stateService.exists(state2.getId()));
+        assertFalse("State should not exist.", stateService.exists(16565468));
     }
 }
