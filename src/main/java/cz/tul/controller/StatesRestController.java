@@ -5,7 +5,6 @@ import java.util.List;
 import cz.tul.data.State;
 import cz.tul.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +30,19 @@ public class StatesRestController {
 
     @PostMapping("/states")
     public void saveState(@RequestBody State state) {
-        stateService.create(state);
+        stateService.save(state);
+    }
+
+    @PutMapping("states/{id}")
+    public ResponseEntity<Object> updateState(@RequestBody State state, @PathVariable int id){
+        if(!stateService.exists(id)){
+            return ResponseEntity.notFound().build();
+        }
+
+        state.setId(id);
+        stateService.save(state);
+        
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("states/{id}")

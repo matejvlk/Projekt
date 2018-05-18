@@ -51,16 +51,16 @@ public class CitiesDaoTests {
 
     @Test
     public void testDelete() {
-        stateService.create(state1);
-        stateService.create(state2);
-        stateService.create(state3);
-        stateService.create(state4);
-        cityService.saveOrUpdate(city2);
-        cityService.saveOrUpdate(city3);
-        cityService.saveOrUpdate(city4);
-        cityService.saveOrUpdate(city5);
-        cityService.saveOrUpdate(city6);
-        cityService.saveOrUpdate(city7);
+        stateService.save(state1);
+        stateService.save(state2);
+        stateService.save(state3);
+        stateService.save(state4);
+        cityService.save(city2);
+        cityService.save(city3);
+        cityService.save(city4);
+        cityService.save(city5);
+        cityService.save(city6);
+        cityService.save(city7);
 
         City retrieved1 = cityService.getCity(city2.getId());
         assertNotNull("City with ID " + retrieved1.getId() + " should not be null (deleted, actual)", retrieved1);
@@ -73,17 +73,17 @@ public class CitiesDaoTests {
 
     @Test
     public void testGetById() {
-        stateService.create(state1);
-        stateService.create(state2);
-        stateService.create(state3);
-        stateService.create(state4);
-        cityService.saveOrUpdate(city1);
-        cityService.saveOrUpdate(city2);
-        cityService.saveOrUpdate(city3);
-        cityService.saveOrUpdate(city4);
-        cityService.saveOrUpdate(city5);
-        cityService.saveOrUpdate(city6);
-        cityService.saveOrUpdate(city7);
+        stateService.save(state1);
+        stateService.save(state2);
+        stateService.save(state3);
+        stateService.save(state4);
+        cityService.save(city1);
+        cityService.save(city2);
+        cityService.save(city3);
+        cityService.save(city4);
+        cityService.save(city5);
+        cityService.save(city6);
+        cityService.save(city7);
 
         City retrieved1 = cityService.getCity(city1.getId());
         assertEquals("Cities should match", city1, retrieved1);
@@ -94,24 +94,24 @@ public class CitiesDaoTests {
 
     @Test
     public void testCreateRetrieve() {
-        stateService.create(state1);
-        stateService.create(state2);
-        stateService.create(state3);
-        stateService.create(state4);
+        stateService.save(state1);
+        stateService.save(state2);
+        stateService.save(state3);
+        stateService.save(state4);
 
-        cityService.saveOrUpdate(city1);
+        cityService.save(city1);
 
         List<City> cities1 = cityService.getCities();
         assertEquals("Should be one city.", 1, cities1.size());
 
         assertEquals("Retrieved city should equal inserted city.", city1, cities1.get(0));
 
-        cityService.saveOrUpdate(city2);
-        cityService.saveOrUpdate(city3);
-        cityService.saveOrUpdate(city4);
-        cityService.saveOrUpdate(city5);
-        cityService.saveOrUpdate(city6);
-        cityService.saveOrUpdate(city7);
+        cityService.save(city2);
+        cityService.save(city3);
+        cityService.save(city4);
+        cityService.save(city5);
+        cityService.save(city6);
+        cityService.save(city7);
 
         List<City> cities2 = cityService.getCities();
         assertEquals("Should be six cities for enabled states.", 6, cities2.size());
@@ -119,19 +119,19 @@ public class CitiesDaoTests {
 
     @Test
     public void testUpdate() {
-        stateService.create(state1);
-        stateService.create(state2);
-        stateService.create(state3);
-        stateService.create(state4);
-        cityService.saveOrUpdate(city2);
-        cityService.saveOrUpdate(city3);
-        cityService.saveOrUpdate(city4);
-        cityService.saveOrUpdate(city5);
-        cityService.saveOrUpdate(city6);
-        cityService.saveOrUpdate(city7);
+        stateService.save(state1);
+        stateService.save(state2);
+        stateService.save(state3);
+        stateService.save(state4);
+        cityService.save(city2);
+        cityService.save(city3);
+        cityService.save(city4);
+        cityService.save(city5);
+        cityService.save(city6);
+        cityService.save(city7);
 
         city3.setCityName("This city has updated name.");
-        cityService.saveOrUpdate(city3);
+        cityService.save(city3);
 
         City retrieved = cityService.getCity(city3.getId());
         assertEquals("Retrieved city should be updated.", city3, retrieved);
@@ -139,18 +139,18 @@ public class CitiesDaoTests {
 
     @Test
     public void testGetStateName() {
-        stateService.create(state1);
-        stateService.create(state2);
-        stateService.create(state3);
-        stateService.create(state4);
+        stateService.save(state1);
+        stateService.save(state2);
+        stateService.save(state3);
+        stateService.save(state4);
 
-        cityService.saveOrUpdate(city1);
-        cityService.saveOrUpdate(city2);
-        cityService.saveOrUpdate(city3);
-        cityService.saveOrUpdate(city4);
-        cityService.saveOrUpdate(city5);
-        cityService.saveOrUpdate(city6);
-        cityService.saveOrUpdate(city7);
+        cityService.save(city1);
+        cityService.save(city2);
+        cityService.save(city3);
+        cityService.save(city4);
+        cityService.save(city5);
+        cityService.save(city6);
+        cityService.save(city7);
 
         List<City> cities1 = cityService.getCitiesByStateName(state3.getStateName());
         assertEquals("Should be three cities for this state.", 3, cities1.size());

@@ -1,13 +1,9 @@
 package cz.tul.controller;
 
 import cz.tul.data.City;
-import cz.tul.data.State;
 import cz.tul.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +30,19 @@ public class CitiesRestController {
 
     @PostMapping("/cities")
     public void saveCity(@RequestBody City city) {
-        cityService.create(city);
+        cityService.save(city);
+    }
+
+    @PutMapping("cities/{id}")
+    public ResponseEntity<Object> updateCity(@RequestBody City city, @PathVariable int id){
+        if(!cityService.exists(id)){
+            return ResponseEntity.notFound().build();
+        }
+
+        city.setId(id);
+        cityService.save(city);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/cities/{id}")

@@ -36,9 +36,13 @@ public class CityService {
         return output;
     }
 
-    public void create(City city)
+    public void save(City city)
     {
         cityRepository.save(city);
+    }
+
+    public boolean exists(int id) {
+        return cityRepository.existsById(id);
     }
 
     public boolean hasCity(String stateName) {
@@ -77,11 +81,6 @@ public class CityService {
 
     public City getCityByCityName(String cityName){
         return cityRepository.findByCityName(cityName);
-    }
-
-    public void saveOrUpdate(City city)
-    {
-        cityRepository.save(city);
     }
 
     public void delete(int id)

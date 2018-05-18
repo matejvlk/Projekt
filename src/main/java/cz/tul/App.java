@@ -19,13 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-//@EnableTransactionManagement
-//@ComponentScan
 public class App {
 
     public static void main(String[] args) {
-        //SpringApplication.run(App.class, args);
-
         new App().run();
     }
 
@@ -34,17 +30,18 @@ public class App {
 
         SpringApplication app = new SpringApplication(App.class);
         ApplicationContext ctx = app.run();
-/*
+
+        /*
         //states
         StateService stateService = ctx.getBean(StateService.class);
 
-        //stateService.deleteStates();
+        stateService.deleteStates();
 
         State czech = new State("Česká republika", true, "user");
-        stateService.create(czech);
+        stateService.save(czech);
 
         State usa = new State("USA", true, "user");
-        stateService.create(usa);
+        stateService.save(usa);
 
         List<State> states = stateService.getAllStates();
         System.out.println(states);
@@ -52,16 +49,16 @@ public class App {
         //cities
         CityService cityService = ctx.getBean(CityService.class);
 
-//        cityService.deleteCities();
+        cityService.deleteCities();
 
         City liberec = new City(czech, 3071961, "Liberec");
-        cityService.saveOrUpdate(liberec);
+        cityService.save(liberec);
 
         City praha = new City(czech, 3067695, "Praha");
-        cityService.saveOrUpdate(praha);
+        cityService.save(praha);
 
         City newYork = new City(usa, 5128638, "New York");
-        cityService.saveOrUpdate(newYork);
+        cityService.save(newYork);
 
         List<City> cities = cityService.getCities();
         System.out.println(cities);

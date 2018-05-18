@@ -10,6 +10,8 @@ public interface StateRepository extends CrudRepository<State, String> {
 
     State findByStateName(String stateName);
 
+    boolean existsById(int id);
+
     @Transactional
     void deleteById(int id);
 }

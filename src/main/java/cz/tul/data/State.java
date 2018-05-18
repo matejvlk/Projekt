@@ -10,7 +10,6 @@ public class State {
     @GeneratedValue
     private int id;
 
-    //@Id
     @Column(name = "stateName")
     private String stateName;
 

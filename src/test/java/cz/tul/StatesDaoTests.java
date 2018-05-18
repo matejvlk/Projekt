@@ -3,15 +3,11 @@ package cz.tul;
 import cz.tul.data.State;
 import cz.tul.service.StateService;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -42,7 +38,7 @@ public class StatesDaoTests {
 
     @Test
     public void testCreateRetrieve() {
-        stateService.create(state1);
+        stateService.save(state1);
 
         List<State> states1 = stateService.getAllStates();
 
@@ -52,9 +48,9 @@ public class StatesDaoTests {
 
         assertEquals("Inserted state should match retrieved", state1, states1.get(0));
 
-        stateService.create(state2);
-        stateService.create(state3);
-        stateService.create(state4);
+        stateService.save(state2);
+        stateService.save(state3);
+        stateService.save(state4);
 
         List<State> states2 = stateService.getAllStates();
 
@@ -63,9 +59,9 @@ public class StatesDaoTests {
 
     @Test
     public void testExists() {
-        stateService.create(state1);
-        stateService.create(state2);
-        stateService.create(state3);
+        stateService.save(state1);
+        stateService.save(state2);
+        stateService.save(state3);
 
         assertTrue("State should exist.", stateService.exists(state2.getId()));
         assertFalse("State should not exist.", stateService.exists(16565468));

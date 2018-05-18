@@ -29,12 +29,6 @@ public class StateController {
     public void setMeasurementRepository(MeasurementRepository measurementRepository){
         this.measurementRepository = measurementRepository;
     }
-/*
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
-*/
 
     @RequestMapping(value="/state/{state}", method = RequestMethod.GET)
     public String showState(@PathVariable(name="state", required=true) String state, Model model) {

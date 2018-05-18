@@ -17,18 +17,12 @@ public class StateService {
     @Autowired
     private StateRepository stateRepository;
 
-    public void create(State state) {
+    public void save(State state) {
         stateRepository.save(state);
     }
 
     public boolean exists(int id) {
-        List<State> states = getAllStates();
-        for (State s: states) {
-            if(s.getId() == id){
-                return true;
-            }
-        }
-        return false;
+        return stateRepository.existsById(id);
     }
 
     public List<State> getAllStates() {
