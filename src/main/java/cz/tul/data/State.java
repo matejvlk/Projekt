@@ -100,6 +100,11 @@ public class State {
 
     @Override
     public String toString() {
-        return "State [stateName=" + stateName + ", enabled=" + enabled + ", authority=" + authority + "]";
+        return "State{" +
+                "id=" + id +
+                ", stateName='" + stateName + '\'' +
+                ", enabled=" + enabled +
+                ", authority='" + authority + '\'' +
+                '}';
     }
 }

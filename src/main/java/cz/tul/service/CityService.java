@@ -22,7 +22,10 @@ public class CityService {
 
     public List<City> getCities() {
         List<City> output = new ArrayList<City>();
-        List<City> all = StreamSupport.stream(cityRepository.findAll().spliterator(), false).collect(Collectors.toList());
+
+        Iterable<City> iterable = cityRepository.findAll();
+        List<City> all = new ArrayList<City>();
+        iterable.forEach(all::add);
 
         for (City city : all){
             if(city.getState().isEnabled()){
@@ -46,7 +49,7 @@ public class CityService {
         return cityRepository.findByStateName(stateName).size() != 0;
     }
 
-    public List<City> getCitiesByName(String stateName) {
+    public List<City> getCitiesByStateName(String stateName) {
         if (stateName == null) {
             return null;
         }
@@ -70,6 +73,10 @@ public class CityService {
         else{
             return null;
         }
+    }
+
+    public City getCityByCityName(String cityName){
+        return cityRepository.findByCityName(cityName);
     }
 
     public void saveOrUpdate(City city)

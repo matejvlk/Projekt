@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface StateRepository extends CrudRepository<State, String> {
 
+    State findByStateName(String stateName);
+
 }

@@ -37,6 +37,8 @@ public class App {
         //states
         StateService stateService = ctx.getBean(StateService.class);
 
+        //stateService.deleteStates();
+
         State czech = new State("Česká republika", true, "user");
         stateService.create(czech);
 
@@ -48,6 +50,8 @@ public class App {
 
         //cities
         CityService cityService = ctx.getBean(CityService.class);
+
+//        cityService.deleteCities();
 
         City liberec = new City(czech, 3071961, "Liberec");
         cityService.saveOrUpdate(liberec);

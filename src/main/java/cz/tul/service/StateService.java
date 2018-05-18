@@ -35,6 +35,10 @@ public class StateService {
         return StreamSupport.stream(stateRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
+    public State getStateByName(String stateName){
+        return stateRepository.findByStateName(stateName);
+    }
+
     public void deleteStates() {
         stateRepository.deleteAll();
     }

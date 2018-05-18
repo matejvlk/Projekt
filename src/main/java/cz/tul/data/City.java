@@ -114,6 +114,11 @@ public class City {
 
     @Override
     public String toString() {
-        return "City [id=" + id + ", cityId=" + cityId + ", cityName=" + cityName + ", state=" + state + "]";
+        return "City{" +
+                "id=" + id +
+                ", cityId=" + cityId +
+                ", cityName='" + cityName + '\'' +
+                ", state=" + state +
+                '}';
     }
 }

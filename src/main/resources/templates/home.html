@@ -12,9 +12,17 @@
     <a th:href="@{'/state/' + ${state.stateName}}"><p th:text="${state.stateName}"></p></a>
 </tr>
 
-<p><a th:href="@{/cities}">Show current cities.</a></p>
+<h3>Příklady volání REST API:</h3>
 
-<p><a th:href="@{/createcity}">Add a new city.</a></p>
+<p><a th:href="@{/cities}">GET /cities</a></p>
+
+<p><a th:href="@{/citydetail/Liberec}">GET /citydetail/Liberec</a></p>
+
+<p><a th:href="@{/states}">GET /states</a></p>
+
+<p><a th:href="@{/statedetail/USA}">GET /statedetail/USA</a></p>
+
+<p><a th:href="@{/measurements}">GET /measurements</a></p>
 
 </body>
 </html>

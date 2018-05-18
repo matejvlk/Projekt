@@ -17,5 +17,7 @@ public interface CityRepository extends CrudRepository<City, Integer> {
 
     //Query using JPQL and named parameter
     @Query("select c from City as c where state.stateName=:stateName and state.enabled=true")
-    public List<City> findByStateName(@Param("stateName") String stateName);
+    List<City> findByStateName(@Param("stateName") String stateName);
+
+    City findByCityName(String cityName);
 }
