@@ -42,4 +42,8 @@ public class StateService {
     public void deleteStates() {
         stateRepository.deleteAll();
     }
+
+    public void deleteById(int id){
+        stateRepository.deleteById(id);
+    }
 }

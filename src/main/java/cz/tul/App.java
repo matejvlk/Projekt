@@ -31,9 +31,10 @@ public class App {
 
 
     private void run(){
+
         SpringApplication app = new SpringApplication(App.class);
         ApplicationContext ctx = app.run();
-
+/*
         //states
         StateService stateService = ctx.getBean(StateService.class);
 
