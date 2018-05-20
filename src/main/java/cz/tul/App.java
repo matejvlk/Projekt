@@ -63,28 +63,7 @@ public class App {
         List<City> cities = cityService.getCities();
         System.out.println(cities);
 
-        /*
-        //measurements
-        MeasurementRepository measurementRepository = ctx.getBean(MeasurementRepository.class);
-
-        //measurementRepository.deleteAll();
-
-        Weather w1 = new Weather("Déšť", "Docela velikej");
-        List<Weather> list = new ArrayList<Weather>();
-        list.add(w1);
-        measurementRepository.save(new Measurement(3071961, "Liberec", list, ));
-
-        for(Measurement m : measurementRepository.findAll()){
-            System.out.println(m);
-        }
-
-
-        RestTemplate restTemplate = new RestTemplate();
-        Measurement measurement = restTemplate.getForObject("http://api.openweathermap.org/data/2.5/weather?id=3071961&units=metric&APPID=383b888b2b81f8060f1f57453315b655", Measurement.class);
-
-        System.out.println(measurement);
-
-*/
+        */
     }
 
 }
