@@ -15,9 +15,24 @@ public class MeasurementsRestController {
     @Autowired
     private MeasurementService measurementService;
 
-    @RequestMapping(value = "/measurements", method = RequestMethod.GET)
-    public List<Measurement> measurements() {
+    @GetMapping("/measurements")
+    public List<Measurement> allMeasurements() {
         return measurementService.findAll();
+    }
+
+    @GetMapping("/lastmeasurements")
+    public List<Measurement> lastMeasurements(){
+        return measurementService.getLastMeasurements();
+    }
+
+    @GetMapping("/lastmeasurements/{days}")
+    public List<Measurement> lastDaysMeasurements(@PathVariable int days){
+        return measurementService.getLastDaysMeasurements(days);
+    }
+
+    @GetMapping("/averagemeasurement/{cityName}/{days}")
+    public Measurement averageMeasurement(@PathVariable String cityName, @PathVariable int days){
+        return measurementService.getAverageMeasurement(cityName, days);
     }
 
     @PostMapping("/measurements")

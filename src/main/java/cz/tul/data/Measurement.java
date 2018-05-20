@@ -14,7 +14,6 @@ import java.util.List;
 public class Measurement {
 
     @Id
-    //@JsonIgnore
     @JsonProperty("objectId")
     public String id;
 
