@@ -3,8 +3,6 @@ package cz.tul.service;
 import cz.tul.data.State;
 import cz.tul.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

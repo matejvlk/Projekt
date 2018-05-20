@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeasurementRepository extends MongoRepository<Measurement, String> {
 
-    public List<Measurement> findByCityName(String cityName);
+    List<Measurement> findByCityName(String cityName);
+
+    //void deleteById(int id);
+
+    //boolean existsById(int id);
 
 }
