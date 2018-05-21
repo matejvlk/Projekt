@@ -2,7 +2,6 @@ package cz.tul.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//Projekce
 public class MeasurementAvg {
     public static final String CITY_NAME = "cityName";
     public static final String TEMP_AVG = "tempAvg";

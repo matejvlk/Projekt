@@ -1,5 +1,6 @@
 package cz.tul.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import cz.tul.data.Measurement;
@@ -13,6 +14,6 @@ public interface MeasurementRepository extends MongoRepository<Measurement, Stri
 
     Measurement findFirstByCityNameOrderByDateDesc(String cityName);
 
-    List<Measurement> findByCityNameAndDateGreaterThan(String cityName, long date);
+    List<Measurement> findByCityNameAndDateGreaterThan(String cityName, Date date);
 
 }

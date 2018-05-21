@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Controller
 public class StateController {
     private static final long MILLIS_IN_10_MINUTES = 1000*60*10;

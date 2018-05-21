@@ -22,10 +22,8 @@ public class App {
         new App().run();
     }
 
-
     private void run(){
         SpringApplication app = new SpringApplication(App.class);
         ApplicationContext ctx = app.run();
     }
-
 }

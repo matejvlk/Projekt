@@ -14,7 +14,6 @@ public class ReadOnlyInterceptor extends HandlerInterceptorAdapter {
             response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
             return false;
         }
-
         return true;
     }
 }

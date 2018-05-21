@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,7 +24,7 @@ public class Measurement {
     public String id;
 
     @JsonProperty(DATE)
-    public long date = new Date().getTime();
+    public Date date = new Date();
 
     @JsonProperty(CITY_ID)
     public int cityId;
@@ -64,11 +63,11 @@ public class Measurement {
         this.id = id;
     }
 
-    public long getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

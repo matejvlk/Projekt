@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -16,11 +15,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = {App.class})
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class)
-//@ActiveProfiles({"test"})
 public class CitiesDaoTests {
 
     @Autowired
@@ -154,9 +150,6 @@ public class CitiesDaoTests {
 
         List<City> cities1 = cityService.getCitiesByStateName(state3.getStateName());
         assertEquals("Should be three cities for this state.", 3, cities1.size());
-
-        //List<City> cities2 = cityService.getCities("sdfsfd");
-        //assertEquals("Should be zero cities for this state.", 0, cities2.size());
 
         List<City> cities3 = cityService.getCitiesByStateName(state2.getStateName());
         assertEquals("Should be 1 city for this state.", 1, cities3.size());

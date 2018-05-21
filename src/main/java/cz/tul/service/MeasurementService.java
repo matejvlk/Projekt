@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +51,9 @@ public class MeasurementService {
     }
 
     public MeasurementAvg getAverageMeasurement(String cityName, int days){
-        long date = new Date().getTime() - MILLIS_IN_DAY * days;
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -days);
+        Date date = calendar.getTime();
 
         MeasurementAvg output = new MeasurementAvg();
         output.setCityName(cityName);

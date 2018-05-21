@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Conditions {
-
     public static class ReadOnlyModeEnabled implements Condition {
-
         @Override
         public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
             String property = conditionContext.getEnvironment().getProperty("weather.read-only-mode");
@@ -17,13 +15,10 @@ public class Conditions {
     }
 
     public static class ReadOnlyModeDisabled implements Condition {
-
         @Override
         public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
             String property = conditionContext.getEnvironment().getProperty("weather.read-only-mode");
             return !property.equals("true");
         }
     }
-
-
 }
