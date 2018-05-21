@@ -1,18 +1,22 @@
 package cz.tul.service;
 
 import com.jayway.jsonpath.JsonPath;
+import cz.tul.Config.Conditions;
 import cz.tul.data.City;
 import cz.tul.data.Measurement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@Conditional(Conditions.ReadOnlyModeDisabled.class)
 @Service
 public class DownloadService {
-    private final long updateInterval = 1000*60*10; // 10 min
+    //private final long updateInterval = 1000*60*10; // 10 min
+    private final long updateInterval = 1000*20;
 
     private CityService cityService;
     private MeasurementService measurementService;
