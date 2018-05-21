@@ -1,44 +1,59 @@
 package cz.tul.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.stereotype.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Document(collection = Measurement.COLLECTION_NAME)
 public class Measurement {
+    public static final String COLLECTION_NAME = "measurements";
+    public static final String OBJECT_ID = "objectId";
+    public static final String DATE = "date";
+    public static final String CITY_ID = "id";
+    public static final String CITY_NAME = "name";
+    public static final String WEATHER = "weather";
+    public static final String DESCRIPTION = "description";
+    public static final String TEMP = "temp";
+    public static final String PRESSURE = "pressure";
 
     @Id
-    @JsonProperty("objectId")
+    @JsonProperty(OBJECT_ID)
     public String id;
 
-    @JsonProperty("date")
-    public Date date;
+    @JsonProperty(DATE)
+    public long date = new Date().getTime();
 
-    @JsonProperty("id")
+    @JsonProperty(CITY_ID)
     public int cityId;
-    @JsonProperty("name")
+
+    @JsonProperty(CITY_NAME)
     public String cityName;
 
-    @JsonProperty("weather")
-    public List<Weather> weather;
+    @JsonProperty(WEATHER)
+    public String weather;
 
-    @JsonProperty("main")
-    public MainWeather main;
+    @JsonProperty(DESCRIPTION)
+    public String description;
+
+    @JsonProperty(TEMP)
+    public double temp;
+
+    @JsonProperty(PRESSURE)
+    public double pressure;
 
     public Measurement() {}
 
-    public Measurement(int cityId, String cityName, List<Weather> weather, MainWeather main) {
-        this.date = new Date();
+    public Measurement(int cityId, String cityName, String weather, String description, double temp, double pressure) {
         this.cityId = cityId;
         this.cityName = cityName;
         this.weather = weather;
-        this.main = main;
+        this.description = description;
+        this.temp = temp;
+        this.pressure = pressure;
     }
 
     public String getId() {
@@ -47,6 +62,14 @@ public class Measurement {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public int getCityId() {
@@ -65,28 +88,36 @@ public class Measurement {
         this.cityName = cityName;
     }
 
-    public List<Weather> getWeather() {
+    public String getWeather() {
         return weather;
     }
 
-    public void setWeather(List<Weather> weather) {
+    public void setWeather(String weather) {
         this.weather = weather;
     }
 
-    public MainWeather getMain() {
-        return main;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMain(MainWeather main) {
-        this.main = main;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public double getTemp() {
+        return temp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTemp(double temp) {
+        this.temp = temp;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
     }
 
     @Override
@@ -96,8 +127,10 @@ public class Measurement {
                 ", date=" + date +
                 ", cityId=" + cityId +
                 ", cityName='" + cityName + '\'' +
-                ", weather=" + weather +
-                ", main=" + main +
+                ", weather='" + weather + '\'' +
+                ", description='" + description + '\'' +
+                ", temp=" + temp +
+                ", pressure=" + pressure +
                 '}';
     }
 }

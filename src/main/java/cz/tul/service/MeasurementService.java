@@ -1,9 +1,11 @@
 package cz.tul.service;
 
-import cz.tul.data.MainWeather;
+import cz.tul.data.City;
 import cz.tul.data.Measurement;
+import cz.tul.data.MeasurementAvg;
 import cz.tul.repositories.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,111 +15,63 @@ import java.util.List;
 @Service
 public class MeasurementService {
 
-    @Autowired
+    static final long MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
+
+    private MongoTemplate mongoTemplate;
     private MeasurementRepository measurementRepository;
+    private CityService cityService;
+
+    @Autowired
+    public MeasurementService(MongoTemplate mongoTemplate, MeasurementRepository measurementRepository, CityService cityService){
+        this.mongoTemplate = mongoTemplate;
+        this.measurementRepository = measurementRepository;
+        this.cityService = cityService;
+    }
 
     public List<Measurement> getByCityName(String cityName)
     {
         return measurementRepository.findByCityName(cityName);
     }
 
+    public List<Measurement> getActualForState(String stateName){
+        List<City> cities = cityService.getCitiesByStateName(stateName);
+
+        List<Measurement> measurements = new ArrayList<Measurement>();
+
+        for(City city : cities){
+            measurements.add(getLastForCityName(city.getCityName()));
+        }
+
+        return measurements;
+    }
+
     public Measurement getLastForCityName(String cityName){
-        List<Measurement> all = measurementRepository.findByCityName(cityName);
-        if(all != null && all.size() > 0){
-            Measurement output = all.get(0);
-            if(all.size() > 1){
-                for(int i = 1; i < all.size(); i++){
-                    if(all.get(i).getDate().after(output.getDate())){
-                        output = all.get(i);
-                    }
-                }
-            }
-            return output;
-        }
-        else{
-            return null;
-        }
+        return measurementRepository.findFirstByCityNameOrderByDateDesc(cityName);
     }
 
-    public List<Measurement> getLastMeasurements(){
-        List<Measurement> all = measurementRepository.findAll();
+    public MeasurementAvg getAverageMeasurement(String cityName, int days){
+        long date = new Date().getTime() - MILLIS_IN_DAY * days;
 
-        if(all != null && all.size() > 0){
-            List<String> cityNames = new ArrayList<String>();
-            List<Measurement> lastMeasurements = new ArrayList<Measurement>();
+        MeasurementAvg output = new MeasurementAvg();
+        output.setCityName(cityName);
 
-            for(Measurement measurement : all){
-                if(!cityNames.contains(measurement.getCityName())){
-                    cityNames.add(measurement.getCityName());
-                }
-            }
+        double totalTemp = 0;
+        double totalPress = 0;
+        int count = 0;
 
-            for(String cityName : cityNames){
-                List<Measurement> allForCity = measurementRepository.findByCityName(cityName);
-                Measurement output = allForCity.get(0);
-                if(allForCity.size() > 1){
-                    for(int i = 1; i < allForCity.size(); i++){
-                        if(all.get(i).getDate().after(output.getDate())){
-                            output = all.get(i);
-                        }
-                    }
-                }
-                lastMeasurements.add(output);
-            }
-            return lastMeasurements;
-        }else{
-            return null;
+        //není to ideální způsob, ale agregační funkci "avg" se mi nepodařilo rozchodit
+        List<Measurement> measurements = measurementRepository.findByCityNameAndDateGreaterThan(cityName,date);
+
+        for(Measurement m : measurements){
+            totalTemp += m.temp;
+            totalPress += m.pressure;
+            count++;
         }
-    }
 
-    public List<Measurement> getLastDaysMeasurements(int days){
-        List<Measurement> all = measurementRepository.findAll();
+        output.setTempAvg(totalTemp/count);
+        output.setPressureAvg(totalPress/count);
 
-        if(all != null && all.size() > 0){
-            List<Measurement> output = new ArrayList<Measurement>();
-
-            long timeSpan = 1000 * 60 * 60 * 24 * days;
-            long treshold = new Date().getTime() - timeSpan;
-
-            for(Measurement measurement : all){
-                if(measurement.getDate().getTime() > treshold){
-                    output.add(measurement);
-                }
-            }
-            return output;
-        }else{
-            return null;
-        }
-    }
-
-    public Measurement getAverageMeasurement(String cityName, int days){
-        List<Measurement> all = measurementRepository.findByCityName(cityName);
-
-        if(all != null && all.size() > 0){
-            Measurement output = new Measurement();
-
-            long timeSpan = 1000 * 60 * 60 * 24 * days;
-            long treshold = new Date().getTime() - timeSpan;
-
-            double temperature = 0;
-            double pressure = 0;
-            int count = 0;
-
-            for(Measurement measurement : all){
-                if(measurement.getDate().getTime() > treshold){
-                    temperature += measurement.main.temp;
-                    pressure += measurement.main.pressure;
-                    count++;
-                }
-            }
-
-            output.setMain(new MainWeather(temperature/count, pressure/count));
-            output.setCityName(cityName);
-
-            return output;
-        }else{
-            return null;
-        }
+        return output;
     }
 
     public void save(Measurement measurement)

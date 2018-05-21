@@ -11,8 +11,8 @@ public interface MeasurementRepository extends MongoRepository<Measurement, Stri
 
     List<Measurement> findByCityName(String cityName);
 
-    //void deleteById(int id);
+    Measurement findFirstByCityNameOrderByDateDesc(String cityName);
 
-    //boolean existsById(int id);
+    List<Measurement> findByCityNameAndDateGreaterThan(String cityName, long date);
 
 }

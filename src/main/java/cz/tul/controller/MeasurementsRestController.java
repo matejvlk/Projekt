@@ -1,7 +1,7 @@
 package cz.tul.controller;
 
 import cz.tul.data.Measurement;
-import cz.tul.repositories.MeasurementRepository;
+import cz.tul.data.MeasurementAvg;
 import cz.tul.service.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +20,8 @@ public class MeasurementsRestController {
         return measurementService.findAll();
     }
 
-    @GetMapping("/lastmeasurements")
-    public List<Measurement> lastMeasurements(){
-        return measurementService.getLastMeasurements();
-    }
-
-    @GetMapping("/lastmeasurements/{days}")
-    public List<Measurement> lastDaysMeasurements(@PathVariable int days){
-        return measurementService.getLastDaysMeasurements(days);
-    }
-
     @GetMapping("/averagemeasurement/{cityName}/{days}")
-    public Measurement averageMeasurement(@PathVariable String cityName, @PathVariable int days){
+    public MeasurementAvg averageMeasurement(@PathVariable String cityName, @PathVariable int days){
         return measurementService.getAverageMeasurement(cityName, days);
     }
 
