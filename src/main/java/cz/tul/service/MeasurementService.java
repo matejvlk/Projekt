@@ -6,7 +6,9 @@ import cz.tul.data.MeasurementAvg;
 import cz.tul.repositories.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.aggregation.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +57,24 @@ public class MeasurementService {
         calendar.add(Calendar.DAY_OF_YEAR, -days);
         Date date = calendar.getTime();
 
+        //netoestovaný kód (nový notebook) ale podle tutoriálu by to mělo být nějak takto
+        MatchOperation matchOperation = Aggregation.match(new Criteria(Measurement.DATE).gt(date).and(Measurement.CITY_NAME).is(cityName));
+
+        GroupOperation groupOperation = Aggregation.group()
+                .avg(Measurement.TEMP).as(MeasurementAvg.TEMP_AVG)
+                .avg(Measurement.PRESSURE).as(MeasurementAvg.PRESSURE_AVG);
+
+        ProjectionOperation projectionOperation = Aggregation.project(MeasurementAvg.TEMP_AVG, MeasurementAvg.PRESSURE_AVG);
+        projectionOperation = projectionOperation.andExclude(Measurement.CITY_ID);
+
+        Aggregation aggregation = Aggregation.newAggregation(matchOperation, groupOperation, projectionOperation);
+
+        AggregationResults<MeasurementAvg> output = mongoTemplate.aggregate(aggregation, Measurement.COLLECTION_NAME, MeasurementAvg.class);
+        return output.getUniqueMappedResult();
+
+
+        //původní funkční a otestovaný, ale ne ideální způsob:
+/*
         MeasurementAvg output = new MeasurementAvg();
         output.setCityName(cityName);
 
@@ -75,6 +95,7 @@ public class MeasurementService {
         output.setPressureAvg(totalPress/count);
 
         return output;
+*/
     }
 
     public void save(Measurement measurement)
