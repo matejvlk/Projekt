@@ -15,6 +15,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+
 @Service
 public class MeasurementService {
 
@@ -57,45 +60,18 @@ public class MeasurementService {
         calendar.add(Calendar.DAY_OF_YEAR, -days);
         Date date = calendar.getTime();
 
-        //netoestovaný kód (nový notebook) ale podle tutoriálu by to mělo být nějak takto
-        MatchOperation matchOperation = Aggregation.match(new Criteria(Measurement.DATE).gt(date).and(Measurement.CITY_NAME).is(cityName));
+        Aggregation aggregation = Aggregation.newAggregation(
+                //match(Criteria.where(Measurement.DATE).gt(date).and(Measurement.CITY_NAME).is(cityName)),
+                match(Criteria.where(Measurement.DATE).gt(date)),
+                //match(Criteria.where(Measurement.CITY_NAME).is(cityName)),
+                group()
+                        .avg(Measurement.TEMP).as(MeasurementAvg.TEMP_AVG)
+                        .avg(Measurement.PRESSURE).as(MeasurementAvg.PRESSURE_AVG)
+        );
 
-        GroupOperation groupOperation = Aggregation.group()
-                .avg(Measurement.TEMP).as(MeasurementAvg.TEMP_AVG)
-                .avg(Measurement.PRESSURE).as(MeasurementAvg.PRESSURE_AVG);
-
-        ProjectionOperation projectionOperation = Aggregation.project(MeasurementAvg.TEMP_AVG, MeasurementAvg.PRESSURE_AVG);
-        projectionOperation = projectionOperation.andExclude(Measurement.CITY_ID);
-
-        Aggregation aggregation = Aggregation.newAggregation(matchOperation, groupOperation, projectionOperation);
-
-        AggregationResults<MeasurementAvg> output = mongoTemplate.aggregate(aggregation, Measurement.COLLECTION_NAME, MeasurementAvg.class);
-        return output.getUniqueMappedResult();
-
-
-        //původní funkční a otestovaný, ale ne ideální způsob:
-/*
-        MeasurementAvg output = new MeasurementAvg();
-        output.setCityName(cityName);
-
-        double totalTemp = 0;
-        double totalPress = 0;
-        int count = 0;
-
-        //není to ideální způsob, ale agregační funkci "avg" se mi nepodařilo rozchodit
-        List<Measurement> measurements = measurementRepository.findByCityNameAndDateGreaterThan(cityName,date);
-
-        for(Measurement m : measurements){
-            totalTemp += m.temp;
-            totalPress += m.pressure;
-            count++;
-        }
-
-        output.setTempAvg(totalTemp/count);
-        output.setPressureAvg(totalPress/count);
-
+        AggregationResults<MeasurementAvg> result = mongoTemplate.aggregate(aggregation, Measurement.COLLECTION_NAME, MeasurementAvg.class);
+        MeasurementAvg output = result.getUniqueMappedResult();
         return output;
-*/
     }
 
     public void save(Measurement measurement)

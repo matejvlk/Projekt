@@ -15,7 +15,8 @@ import java.util.List;
 @Conditional(Conditions.ReadOnlyModeDisabled.class)
 @Service
 public class DownloadService {
-    private final long updateInterval = 1000*60*10; // 10 min
+    //private final long updateInterval = 1000*60*10; // 10 min
+    private final long updateInterval = 1000*10; // 10 s
 
     private CityService cityService;
     private MeasurementService measurementService;
